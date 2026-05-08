@@ -1,0 +1,190 @@
+import { useEffect } from "react";
+import { motion } from "framer-motion";
+import { Award } from "lucide-react";
+import SectionHeader from "../components/SectionHeader";
+import AccordionItem from "../components/AccordionItem";
+import { useLanguage } from "../context/LanguageContext";
+import { useFadeIn } from "../hooks/useFadeIn";
+
+function FadeSection({ children, className = "", delay = 0 }) {
+  const ref = useFadeIn(0.1);
+  return (
+    <div ref={ref} className={`fade-in-section ${className}`} style={{ transitionDelay: `${delay}ms` }}>
+      {children}
+    </div>
+  );
+}
+
+function MissionPoint({ number, text, delay }) {
+  const ref = useFadeIn(0.1);
+  return (
+    <div ref={ref} className="fade-in-section group" style={{ transitionDelay: `${delay}ms` }}>
+      <div className="flex items-start gap-5 p-5 rounded-2xl bg-white border border-[#F0D5B8] hover:border-[#E8622A]/50 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 card-shimmer">
+        <span className="text-5xl font-bold text-[#E8622A]/15 leading-none shrink-0 select-none w-14 text-right font-serif group-hover:text-[#E8622A]/30 transition-colors duration-300">
+          {String(number + 1).padStart(2, "0")}
+        </span>
+        <p className="text-[#1E0F05] text-base leading-relaxed pt-2">{text}</p>
+      </div>
+    </div>
+  );
+}
+
+export default function Uddeshya() {
+  const { t, lang } = useLanguage();
+  const u = t.uddeshya;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.title = "Sashakt Rashtra Nirman – Objectives";
+  }, []);
+
+  // Language helpers
+  const en = lang === "en";
+
+  return (
+    <div className="bg-[#FDF5EC]">
+
+      {/* ── Banner ─────────────────────────────────────────────────── */}
+      <section className="relative bg-[#1E0F05] py-28 text-center px-6 overflow-hidden min-h-[38vh] flex items-center justify-center">
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{ backgroundImage: `repeating-linear-gradient(-45deg, white, white 1px, transparent 1px, transparent 28px)` }}
+        />
+        <div className="absolute inset-0 hero-glow pointer-events-none opacity-60" />
+        <div className="absolute top-8 left-12 w-40 h-40 rounded-full bg-[#E8622A]/8 blur-3xl" />
+        <div className="absolute bottom-8 right-12 w-32 h-32 rounded-full bg-[#D4880C]/8 blur-3xl" />
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="relative max-w-3xl mx-auto"
+        >
+          <motion.span
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 }}
+            className="inline-block bg-[#E8622A]/15 border border-[#E8622A]/30 text-[#F47A3A] text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5"
+          >
+            {en ? "Our Purpose" : "हमारा उद्देश्य"}
+          </motion.span>
+
+          <h1 className="text-4xl md:text-6xl font-bold text-white font-serif tracking-tight leading-tight">
+            {en ? "Objectives of the Trust" : u.bannerTitleHindi}
+          </h1>
+          <p className="text-[#F47A3A] text-lg mt-2 font-medium">
+            {en ? u.bannerTitleHindi : "Objectives of the Trust"}
+          </p>
+          <p className="text-orange-200/60 text-sm mt-4 max-w-xl mx-auto leading-relaxed">
+            {u.bannerSubtitle}
+          </p>
+
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.55, duration: 0.5 }}
+            className="h-1 bg-gradient-to-r from-[#E8622A] to-[#D4880C] mt-8 mx-auto w-24 rounded-full origin-center"
+          />
+        </motion.div>
+      </section>
+
+      {/* ── Objectives accordion ─────────────────────────────────── */}
+      <section className="py-20 px-6 bg-[#FDF5EC]">
+        <div className="max-w-3xl mx-auto">
+          <FadeSection>
+            <SectionHeader
+              hindi={u.objectivesTitleHindi}
+              english={en ? "Core Objectives" : null}
+              lang={lang}
+            />
+            <p className="text-center text-[#7A5C45] text-sm -mt-6 mb-10 max-w-xl mx-auto">
+              {en
+                ? "Tap each objective to explore the activities we undertake."
+                : "विस्तृत जानकारी के लिए प्रत्येक उद्देश्य पर क्लिक करें।"}
+            </p>
+          </FadeSection>
+
+          <div className="space-y-3">
+            {u.objectives.map((obj, i) => (
+              <FadeSection key={i} delay={i * 55}>
+                <AccordionItem
+                  number={obj.number}
+                  titleHindi={obj.titleHindi}
+                  title={obj.title}
+                  points={obj.points}
+                  defaultOpen={i === 0}
+                  lang={lang}
+                />
+              </FadeSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Mission ────────────────────────────────────────────────── */}
+      <section className="py-20 px-6 bg-[#FFF9F2] relative overflow-hidden">
+        <div className="absolute right-6 top-1/2 -translate-y-1/2 text-[15rem] font-bold text-[#E8622A]/4 select-none pointer-events-none leading-none font-serif hidden md:block">
+          M
+        </div>
+        <div className="max-w-4xl mx-auto relative">
+          <FadeSection>
+            <SectionHeader
+              hindi="हमारा मिशन"
+              english="Our Mission"
+              lang={lang}
+            />
+          </FadeSection>
+          <div className="mt-8 grid grid-cols-1 gap-4">
+            {u.missionPoints.map((point, i) => (
+              <MissionPoint key={i} number={i} text={point} delay={i * 75} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Legal Framework ────────────────────────────────────────── */}
+      <section className="py-20 px-6 bg-[#1E0F05] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.035]" style={{ backgroundImage: `repeating-linear-gradient(-45deg, white, white 1px, transparent 1px, transparent 28px)` }} />
+        <div className="absolute inset-0 hero-glow pointer-events-none opacity-40" />
+
+        <div className="relative max-w-4xl mx-auto text-center">
+          <FadeSection>
+            <span className="inline-block bg-[#E8622A]/15 border border-[#E8622A]/30 text-[#F47A3A] text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">
+              {en ? "Registered & Recognized" : "पंजीकृत एवं मान्यता प्राप्त"}
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-white font-serif">
+              {en ? "Legal Framework" : "कानूनी मान्यता"}
+            </h2>
+            <p className="text-[#F47A3A] text-lg mt-1">
+              {en ? "कानूनी मान्यता" : "Legal Framework"}
+            </p>
+            <div className="mx-auto mt-4 h-1 w-20 rounded-full bg-gradient-to-r from-[#E8622A] to-[#D4880C]" />
+            <p className="text-white/50 text-sm mt-4 max-w-lg mx-auto">
+              {en
+                ? "Fully registered and compliant under Indian law."
+                : "भारतीय कानून के अंतर्गत पूर्णतः पंजीकृत एवं अनुपालन में।"}
+            </p>
+          </FadeSection>
+
+          <FadeSection delay={150}>
+            <div className="flex flex-wrap gap-3 justify-center mt-10">
+              {u.legalBadges.map((badge, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08 }}
+                  className="bg-white/8 border border-white/15 hover:border-[#E8622A]/60 hover:bg-[#E8622A]/10 text-white/80 hover:text-white rounded-full px-6 py-2.5 text-sm font-medium transition-all duration-200 cursor-default flex items-center gap-2"
+                >
+                  <Award className="w-3.5 h-3.5 text-[#E8622A] shrink-0" />
+                  {badge}
+                </motion.span>
+              ))}
+            </div>
+          </FadeSection>
+        </div>
+      </section>
+    </div>
+  );
+}

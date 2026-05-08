@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme inline {
+  --color-orange-primary: #E8622A;
+  --color-orange-light: #F47A3A;
+  --color-orange-dark: #C04A18;
+  --color-orange-glow: #FF8C42;
+  --color-maroon: #5C1010;
+  --color-maroon-light: #7A1C1C;
+  --color-amber-gold: #D4880C;
+  --color-cream: #FDF5EC;
+  --color-off-white: #FFF9F2;
+  --color-dark-brown: #1E0F05;
+  --color-muted-brown: #7A5C45;
+
+  --color-background: #FDF5EC;
+  --color-foreground: #1E0F05;
+  --color-border: #F0D5B8;
+  --color-card: #FFF9F2;
+  --color-card-foreground: #1E0F05;
+  --color-primary: #E8622A;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #5C1010;
+  --color-secondary-foreground: #ffffff;
+  --color-muted: #FDF5EC;
+  --color-muted-foreground: #7A5C45;
+  --color-accent: #D4880C;
+  --color-accent-foreground: #ffffff;
+  --color-input: #F0D5B8;
+  --color-ring: #E8622A;
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: 'Noto Serif', Georgia, serif;
+  --font-mono: Menlo, monospace;
+  --radius: 0.5rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #FDF5EC;
+  color: #1E0F05;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Page transition wrapper */
+.page-enter {
+  opacity: 0;
+  transform: translateY(16px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Fade-in on scroll utility */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Orange gradient hero glow */
+.hero-glow {
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(232, 98, 42, 0.35) 0%, transparent 70%);
+}
+
+/* Shimmer on hover cards */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.card-shimmer:hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: shimmer 1s ease;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.card-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Pulse ring for the SRN logo badge */
+@keyframes pulse-ring {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(232,98,42,0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(232,98,42,0); }
+}
+.pulse-ring {
+  animation: pulse-ring 2.4s ease-in-out infinite;
+}
+
+/* Subtle float animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.float-badge {
+  animation: float 3.5s ease-in-out infinite;
+}

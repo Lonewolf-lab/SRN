@@ -1,0 +1,405 @@
+Create a fully responsive, multi-page frontend website using React.js with Vite (NO Next.js) and Tailwind CSS for a non-profit organization named "Sashakt Rashtra Nirman" (सशक्त राष्ट्र निर्माण). No backend, no database, no authentication. Clean component-based architecture with modern UI.
+
+📁 Tech Stack
+
+Framework: React + Vite
+Styling: Tailwind CSS (configured properly in vite + tailwind config)
+Routing: React Router v6
+Icons: Lucide React
+Animations: Framer Motion
+
+
+🎨 Color Scheme (Must Follow Exactly)
+PurposeColorHexPrimary / CTAs / HighlightsWarm Terracotta#DE7852Primary Dark (hover states)Deep Burnt Orange#B85A35Secondary / Navbar / FooterDeep Maroon#7A1C1CAccent / Borders / BadgesWarm Amber Gold#C8860APage BackgroundWarm Cream#FAF6F0Card SurfaceOff-White#FFF8F2Text PrimaryDark Brown#2C1A0EText SecondaryMuted Brown#7A5C45WhitePure White#FFFFFF
+NO green anywhere in the website. Configure all these as custom colors inside tailwind.config.js under theme.extend.colors.
+
+📁 Project Structure
+src/
+  components/
+    HamburgerMenu.jsx
+    Footer.jsx
+    SectionHeader.jsx
+    ObjectiveCard.jsx
+    MemberCard.jsx
+    AccordionItem.jsx
+    LegalBadge.jsx
+  pages/
+    Home.jsx
+    Sangathan.jsx
+    Uddeshya.jsx
+  context/
+    LanguageContext.jsx
+  data/
+    content.js
+  App.jsx
+  main.jsx
+index.html
+tailwind.config.js
+vite.config.js
+
+🌐 Language Toggle
+
+Build a LanguageContext using React Context API
+Default language: English
+A toggle button inside the hamburger drawer switches between English (EN) and Hindi (हिं)
+ALL text across all pages switches simultaneously
+All strings stored in src/data/content.js as a bilingual object with en and hi keys
+
+
+🍔 Hamburger Menu — PRIMARY NAVIGATION (All Screen Sizes)
+There is NO traditional top navbar bar. Navigation is ONLY via a hamburger menu on ALL screen sizes.
+Trigger Button:
+
+Fixed position: top-5 right-6, always on top (z-50)
+Size: 48x48px, background #7A1C1C, border-radius 10px, border 1px solid #C8860A
+3 animated bars (<span> elements) — pure CSS transform animation
+On click: top bar rotates 45deg, middle bar opacity-0, bottom bar -45deg
+Transition: duration-300 ease-in-out
+
+Drawer Panel:
+
+Slides in from the RIGHT: translate-x-full → translate-x-0, transition duration-400
+Width: w-80 on desktop, w-full on mobile
+Height: h-screen, fixed, z-40
+Background: #7A1C1C
+Left border: border-l-4 border-amber-500
+
+Inside the Drawer:
+
+Top: SRN logo circle (initials "SRN", bg #DE7852, text white, 64px) + org name "सशक्त राष्ट्र निर्माण" + "Sashakt Rashtra Nirman" stacked, white, centered
+Thin amber divider below the logo block
+Nav links (3 total), each showing:
+
+Hindi name (text-2xl font-serif text-white)
+English name below it (text-sm text-amber-300)
+Left amber dot for active route
+Hover: text turns #DE7852, → appears via CSS after:
+Staggered Framer Motion fade-in (delay 0.1s, 0.2s, 0.3s)
+
+
+Links: मुखपृष्ठ / Home → /, संगठन / Sangathan → /sangathan, उद्देश्य / Objectives → /uddeshya
+Bottom of drawer: Language toggle pill (EN | हिं), phone number +91 76520 12487, email srnindia@yahoo.com
+Clicking a link closes drawer after 200ms delay
+Escape key closes drawer
+
+Overlay:
+
+bg-black/55 backdrop-blur-sm full screen behind drawer
+Click overlay to close
+Fade in/out with Framer Motion opacity transition
+
+
+📄 PAGE 1: HOME (/)
+Hero Section
+
+Full width, background #7A1C1C, min-height 100vh
+Subtle CSS diagonal stripe pattern overlay (use repeating-linear-gradient at low opacity)
+Center-aligned content with Framer Motion fade-in-up animation:
+
+SRN logo circle (80px, bg #DE7852, white initials "SRN", text-2xl font-bold)
+Main title: सशक्त राष्ट्र निर्माण — text-5xl md:text-7xl font-bold text-white
+English subtitle: Sashakt Rashtra Nirman — text-xl text-amber-300
+Slogan on a golden amber banner strip (bg #C8860A, text white, text-lg font-medium py-3 px-8 rounded-full): "सेवा, शक्ति और संकल्प | हर कदम राष्ट्र निर्माण की ओर"
+Below it in smaller text: "Service, Strength and Determination | Every Step Towards Nation Building"
+Area: कार्यक्षेत्र: सम्पूर्ण भारतवर्ष in text-amber-200
+NPO ID: UP/2026/0964183 R.No.: 01/2026 in text-sm text-white/60
+Two CTA buttons:
+
+Primary: जानें और / Know More → /uddeshya — bg #DE7852, white text, hover #B85A35
+Secondary: हमसे जुड़ें / Join Us — outline white border, white text, hover fills white with maroon text
+
+
+
+
+
+Info Bar
+
+bg #FFF8F2, border-top and border-bottom 2px solid #DE7852
+3 items in a flex row (stack on mobile):
+
+कार्यक्षेत्र: सम्पूर्ण भारतवर्ष with a map pin icon
+Unique ID: UP/2026/0964183 with a badge icon
+R.No.: 01/2026 with a document icon
+
+
+Text: #7A1C1C font-semibold
+
+About Us Section
+
+bg #FAF6F0
+SectionHeader component: title "हमारे बारे में / About Us", amber underline
+Two columns on desktop (stack on mobile):
+
+Left: Full paragraph text from the PDF About Us section (both languages depending on toggle)
+Right: Highlighted quote block — border-l-4 border-[#DE7852] bg-[#FFF8F2] p-6 italic text-xl text-[#7A1C1C] — quote: "जब समाज का प्रत्येक व्यक्ति सशक्त होता है, तभी राष्ट्र सशक्त होता है।" / "A nation becomes strong only when every individual in society is empowered."
+
+
+
+Vision & Mission Cards
+
+2-column grid, gap-6
+Vision Card: white bg, border-l-4 border-[#DE7852], rounded-xl, shadow-sm, p-6
+
+Icon: eye/star icon (Lucide), terracotta color
+Title: "दृष्टि / Vision" in #7A1C1C font-bold text-xl
+Content from PDF Vision section
+
+
+Mission Card: white bg, border-l-4 border-[#7A1C1C], rounded-xl, shadow-sm, p-6
+
+Icon: target icon
+Title: "मिशन / Mission"
+First 4 mission points as bullet list (text-sm text-[#7A5C45])
+
+
+
+Focus Areas Section
+
+bg #FFF8F2
+SectionHeader: "हमारे कार्यक्षेत्र / Our Focus Areas"
+Grid: grid-cols-2 md:grid-cols-3, gap-4
+6 cards, each: white bg, rounded-xl, p-5, border 1px solid #E8D5C4, hover border-[#DE7852] shadow-md -translate-y-1 transition-all duration-200
+
+Large Lucide icon (32px, #DE7852)
+Title in Hindi + English
+1-line description
+
+
+
+Cards:
+
+📚 शिक्षा / Education — Literacy, digital learning, skill development
+🏥 स्वास्थ्य / Healthcare — Health camps, medical check-ups, awareness
+👩 महिला सशक्तिकरण / Women Empowerment — SHGs, legal awareness, livelihood
+🧑‍🤝‍🧑 युवा विकास / Youth Development — Leadership, sports, innovation
+🌿 पर्यावरण / Environment — Tree plantation, waste management, conservation
+🏘️ ग्रामीण विकास / Rural Development — Infrastructure, digital access, employment
+
+Impact Counter Section
+
+bg #7A1C1C, text white
+4 animated counters using useEffect + setInterval count-up animation:
+
+10,000+ Beneficiaries / लाभार्थी
+25+ Projects / परियोजनाएं
+500+ Volunteers / स्वयंसेवक
+15+ Districts / जिले
+
+
+Each counter: large number in #DE7852, label below in white/70
+Motivational quote below: "साथ मिलकर हम एक सशक्त, जागरूक और विकसित भारत का निर्माण कर सकते हैं।" — italic, text-amber-200
+
+Legal Legitimacy Section
+
+bg #FAF6F0
+SectionHeader: "कानूनी मान्यता / Legal Framework"
+5 badge pills in flex-wrap row, centered:
+
+Each: bg #FFF8F2, border 1px solid #C8860A, rounded-full, px-5 py-2, text #7A1C1C font-medium text-sm
+Indian Trusts Act 1882, NITI Aayog DARPAN, Section 12A Income Tax, Section 80G, e-Anudaan Portal
+
+
+
+Contact Strip
+
+bg #2C1A0E, text white, py-8
+2 items centered: phone icon + +91 76520 12487, mail icon + srnindia@yahoo.com
+Both as clickable links (tel: and mailto:)
+
+
+📄 PAGE 2: SANGATHAN (/sangathan)
+Page Banner
+
+bg #7A1C1C, py-20, text center
+Title: संगठन परिचय / Our Organization — text-4xl md:text-5xl font-bold text-white
+Tagline below in text-amber-300
+Amber bottom border strip: h-1 bg-[#C8860A]
+
+Patron & President Section
+
+bg #FAF6F0, py-16
+SectionHeader: "नेतृत्व / Leadership"
+2 cards side by side (stack on mobile), both centered, max-w-sm each
+
+Patron Card — border 2px solid #DE7852, rounded-2xl, bg white, p-8, text-center, shadow-md:
+
+Badge at top: संरक्षक / Patron — bg #DE7852, white text, rounded-full, text-sm, px-4 py-1
+Name: पूज्य स्वामी यतींद्रानंद गिरी जी महाराज — text-xl font-bold text-[#7A1C1C]
+English: Swami Yatindranand Giri — text-sm text-[#7A5C45]
+Designation: वरिष्ठ महामंडलेश्वर, जूना अखाड़ा / Senior Mahamandaleshwar, Juna Akhara
+
+National President Card — bg #7A1C1C, rounded-2xl, p-8, text-center, shadow-md (inverted colors):
+
+Badge: राष्ट्रीय अध्यक्ष / National President — bg #DE7852, white text, rounded-full
+Name: प्रो (डॉ.) मनोज कुमार शुक्ल — text-xl font-bold text-white
+English: Prof. (Dr.) Manoj Kumar Shukla — text-amber-300 text-sm
+Credentials: B.Tech (CSE), M.Tech (CSE), Ph.D from IIT Dhanbad — text-white/70 text-sm
+
+Advisory Board Section
+
+bg #FFF8F2, py-16
+SectionHeader: "सलाहकार मंडल / Advisory Board"
+Grid: grid-cols-1 md:grid-cols-2 lg:grid-cols-3, gap-6
+
+6 Advisor Cards — each: bg white, rounded-xl, p-6, border 1px solid #E8D5C4, shadow-sm, hover shadow-md border-[#DE7852] transition-all:
+
+Initials avatar circle (48px, bg #DE7852, white bold text, rounded-full)
+Name: font-bold text-[#2C1A0E] text-lg
+Batch/qualification badge: bg #FAF6F0, border 1px solid #C8860A, rounded-full, text-xs text-[#7A1C1C] px-3 py-1
+Key role: text-[#DE7852] font-semibold text-sm mt-2
+Previous role: text-[#7A5C45] text-sm
+
+All 6 advisors with exact details:
+
+श्री (डॉ.) शैलेन्द्र कुमार जोशी / Shri (Dr.) Shailendra Kumar Joshi | IAS 1984 | B.Tech IIT Roorkee, M.Tech IIT Delhi, Ph.D TERI | Former Chief Secretary, Government of Telangana
+श्री विभूति भूषण प्रधान / Shri Vibhuti Bhushan Pradhan | IPS 1985 | Former Director General, Jharkhand Police | Recipient of President's Police Medal
+श्री बजरंग लाल कोटरीवाला / Shri Bajrang Lal Kotriwala | Former Joint Adviser, NITI Aayog, Govt of India | Former Adviser, Lokayukta Rajasthan | Former Regional Controller of Mines, IBM Ajmer
+श्री अरुण कुमार शुक्ल / Shri Arun Kumar Shukla | Former Chairman & MD, Hindustan Copper Limited, Government of India
+श्री विनोद कोहली / Shri Vinod Kohli | B.Tech Electrical Engg, IIT Delhi 1972 | Member Executive Council, Uttarakhand Technical University | MD, QGS Infotech Pvt Ltd
+श्री कुँवर नीरज सिंह / Shri Kunwar Neeraj Singh | National Co-Secretary, Lokbharati
+
+Values Section
+
+bg #FAF6F0, py-12
+SectionHeader: "हमारी प्रतिबद्धता / Our Commitment"
+4 cards in a row (2x2 on mobile), each: centered, icon on top (Lucide, 40px, #DE7852), title bold, 1-line desc
+Values: ईमानदारी/Integrity, पारदर्शिता/Transparency, जिम्मेदारी/Responsibility, सेवा-भाव/Spirit of Service
+
+
+📄 PAGE 3: UDDESHYA (/uddeshya)
+Page Banner
+
+Same style as Sangathan banner
+Title: न्यास के उद्देश्य / Objectives of the Trust
+Subtitle: Sashakt Rashtra Nirman Trust has been established to fulfill the following objectives
+
+Objectives Accordion Section
+
+bg #FAF6F0, py-16
+SectionHeader: "10 मुख्य उद्देश्य / 10 Core Objectives"
+10 accordion items, one open at a time (first one open by default)
+
+Each Accordion Item:
+
+Closed state: bg white, border 1px solid #E8D5C4, rounded-xl, p-5, flex row — number badge + title + chevron
+Number badge: w-10 h-10 rounded-full bg-[#DE7852] text-white font-bold text-sm flex items-center justify-center
+Title: Hindi (font-bold text-[#2C1A0E]) + English (text-sm text-[#7A5C45]) stacked
+Chevron rotates 180° on open: transition-transform duration-300
+Open state: border-l-4 border-[#DE7852] added, content slides down with Framer Motion AnimatePresence
+Content: bullet list, text-sm text-[#7A5C45], each bullet with a small • in #DE7852
+
+All 10 objectives with full bullet content:
+
+शैक्षिक उन्नयन / Educational Advancement
+
+Promote literacy and formal/informal education among children, youth, women, adults
+Establish schools, training centers, libraries, digital learning hubs
+Provide scholarships, study materials, digital devices to meritorious and economically disadvantaged students
+Organize employment-oriented skill development, vocational training, digital literacy programs
+
+
+सामाजिक कल्याण / Social Welfare & Community Development
+
+Conduct welfare activities for underprivileged, backward, vulnerable sections of society
+Provide relief, rehabilitation, humanitarian assistance during natural disasters or emergencies
+Implement programs for social awareness, behavioral change, and community empowerment
+
+
+स्वास्थ्य संवर्धन / Health Promotion
+
+Organize health camps, medical check-ups, awareness campaigns, blood donation drives, preventive healthcare
+Support nutrition, sanitation, mental health, public health, and disease prevention initiatives
+Collaborate with hospitals, medical professionals, and healthcare institutions
+
+
+महिला सशक्तिकरण / Women Empowerment
+
+Promote women's education, health, safety, leadership skills, and economic self-reliance
+Support and operate women self-help groups (SHGs), entrepreneurship training, livelihood programs
+Provide legal awareness, rights education, and support mechanisms for women
+
+
+युवा विकास एवं राष्ट्र निर्माण / Youth Development & Nation Building
+
+Motivate youth to actively participate in social service, leadership programs, innovation initiatives
+Provide platforms for sports, creativity, entrepreneurship, research, and skill development
+Promote value-based education and character building among young citizens
+
+
+पर्यावरण संरक्षण / Environmental Protection
+
+Promote tree plantation, cleanliness drives, waste management, environmental awareness, sustainable lifestyles
+Support conservation of natural resources, water management, and climate change initiatives
+
+
+ग्रामीण एवं शहरी विकास / Rural & Urban Development
+
+Implement projects for infrastructure, livelihoods, digital facilities, community resources in rural and urban areas
+Promote financial literacy, micro-entrepreneurship, and employment generation programs
+
+
+अनुसंधान, प्रशिक्षण एवं नवाचार / Research, Training & Innovation
+
+Conduct research, surveys, studies, publications, documentation in education, environment, social development
+Organize workshops, seminars, conferences, capacity-building programs for students, teachers, professionals
+
+
+सहभागिता एवं सहयोग / Participation & Collaboration
+
+Work with government bodies, NGOs, educational institutions, CSR units, experts
+Obtain grants, donations, assistance, and support from legal sources for Trust activities
+
+
+अनुपालन एवं सुशासन / Compliance & Good Governance
+
+Conduct all activities without discrimination based on caste, religion, gender, or region
+Ensure transparency, accountability, ethical conduct, financial integrity in all processes
+Carry out all necessary legal and welfare activities to fulfill Trust objectives
+
+
+
+Mission Section
+
+bg #FFF8F2, py-16
+SectionHeader: "हमारा मिशन / Our Mission"
+7 mission points as large numbered items: number in text-5xl font-bold text-[#DE7852]/20, text beside it in text-[#2C1A0E]
+
+All 7 mission points from the PDF:
+
+Promote education, literacy, digital learning, vocational training, skill development across socio-economic backgrounds
+Implement welfare programs for upliftment of underprivileged, marginalized, disadvantaged sections
+Actively engage youth through leadership development, value-based training, innovation, social participation
+Undertake healthcare, sanitation, environmental protection, women empowerment, rural/urban development projects
+Ensure transparency, integrity, financial probity, and accountability in all Trust activities
+Collaborate with government bodies, educational institutions, civil society, experts for effective implementation
+Fulfill all objectives responsibly, ethically, in public interest within the legal framework
+
+Legal Framework Section
+
+Same as homepage legal section — bg #FAF6F0, 5 badge pills
+
+
+🧭 FOOTER
+
+bg #2C1A0E, text white, py-12
+3 columns on desktop (stack on mobile):
+
+Col 1: SRN logo circle + org name + tagline + NPO ID
+Col 2: Quick Links (Home, Sangathan, Objectives) using React Router <Link>
+Col 3: Contact — phone, email (both as clickable links)
+
+
+Bottom bar: thin border-t border-white/10, copyright text centered text-white/50 text-sm
+
+
+♿ ADDITIONAL REQUIREMENTS
+
+scroll-behavior: smooth globally
+All pages start at top on navigation (useEffect with window.scrollTo(0,0) on route change)
+<title> per page: "Sashakt Rashtra Nirman – Home", "– Sangathan", "– Objectives"
+No placeholder Lorem Ipsum — use ONLY actual content provided above
+All hover states use transition-all duration-200
+All images replaced with styled CSS div placeholders (no broken img tags)
+Framer Motion only for: hero fade-in, drawer slide, accordion expand, counter count-up
+The counter animation should start when the section scrolls into view (use IntersectionObserver)
+Font imports in index.css: Noto Serif Devanagari (for Hindi headings) + Inter (body) from Google Fonts
