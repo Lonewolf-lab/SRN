@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, Mail, Languages } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
+import { GlassButton } from "./ui/glass-button";
 
 const navLinks = [
   { path: "/",           hindiName: "मुखपृष्ठ", englishName: "Home" },
@@ -58,7 +59,7 @@ export default function HamburgerMenu({ isOpen, setIsOpen }) {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.38, ease: [0.32, 0.72, 0, 1] }}
-            className="fixed top-0 right-0 z-50 h-screen w-full sm:w-[26rem] bg-[#1E0F05] border-l border-[#E8622A]/20 flex flex-col"
+            className="fixed top-0 right-0 z-50 h-screen w-full sm:w-[26rem] bg-[#3D2314]/80 backdrop-blur-lg border-l border-[#E8622A]/20 flex flex-col shadow-2xl"
           >
             {/* Orange accent bar */}
             <div className="h-1 bg-gradient-to-r from-[#E8622A] to-[#D4880C]" />
@@ -94,15 +95,12 @@ export default function HamburgerMenu({ isOpen, setIsOpen }) {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: (i + 1) * 0.08, ease: "easeOut" }}
                   >
-                    <Link
-                      to={link.path}
-                      onClick={handleLinkClick}
-                      className={`flex items-center gap-4 py-3.5 px-4 rounded-xl transition-all duration-200 group hover:-translate-y-0.5 hover:shadow-md ${
-                        isActive
-                          ? "bg-[#E8622A]/12 shadow-sm"
-                          : "hover:bg-[#E8622A]/8"
-                      }`}
-                    >
+                    <GlassButton asChild variant={isActive ? "active" : "default"}>
+                      <Link
+                        to={link.path}
+                        onClick={handleLinkClick}
+                        className="flex items-center gap-4 w-full"
+                      >
                       {/* Active dot */}
                       <span
                         className={`w-2 h-2 rounded-full bg-[#E8622A] shrink-0 transition-opacity duration-200 ${
@@ -120,6 +118,7 @@ export default function HamburgerMenu({ isOpen, setIsOpen }) {
                         </p>
                       </div>
                     </Link>
+                  </GlassButton>
                   </motion.div>
                 );
               })}

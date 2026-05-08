@@ -310,6 +310,9 @@ importers:
 
   artifacts/srn-website:
     dependencies:
+      '@react-map/india':
+        specifier: ^1.0.21
+        version: 1.0.21(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-router-dom:
         specifier: ^7.14.1
         version: 7.14.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -1553,6 +1556,12 @@ packages:
 
   '@radix-ui/rect@1.1.1':
     resolution: {integrity: sha512-HPwpGIzkl28mWyZqG52jiqDJ12waP11Pa1lGoiyUkIEuMLBP0oeK/C89esbXrxsky5we7dfd8U58nm0SgAWpVw==}
+
+  '@react-map/india@1.0.21':
+    resolution: {integrity: sha512-XhnyMiePPTkjzL9qsvl+UNwsQFOJj23+Cxp7isjhx8ilJyHX3MqAzPyzTiYN4EeKSGNkUCrlNfc/Wf0R0G1QeA==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
 
   '@rolldown/pluginutils@1.0.0-rc.3':
     resolution: {integrity: sha512-eybk3TjzzzV97Dlj5c+XrBFW57eTNhzod66y9HrBlzJ6NsCrWCp/2kaPS3K9wJmurBC0Tdw4yPjXKZqlznim3Q==}
@@ -4567,6 +4576,11 @@ snapshots:
       '@types/react-dom': 19.2.3(@types/react@19.2.14)
 
   '@radix-ui/rect@1.1.1': {}
+
+  '@react-map/india@1.0.21(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
 
   '@rolldown/pluginutils@1.0.0-rc.3': {}
 
