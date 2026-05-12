@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  srn-api:
+    build: .
+    container_name: srn-backend
+    ports:
+      - "${PORT:-3000}:3000"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+    restart: always

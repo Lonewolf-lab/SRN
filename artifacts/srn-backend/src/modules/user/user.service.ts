@@ -1,0 +1,53 @@
+import { prisma } from '../../lib/prisma';
+import bcrypt from 'bcrypt';
+
+export const getUserProfile = async (userId: string) => {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      avatar: true,
+      role: true,
+      isVerified: true,
+      createdAt: true,
+    },
+  });
+
+  if (!user) throw new Error('User not found');
+  return user;
+};
+
+export const updateUserProfile = async (userId: string, data: any) => {
+  return await prisma.user.update({
+    where: { id: userId },
+    data: {
+      name: data.name,
+      avatar: data.avatar,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      avatar: true,
+      role: true,
+    },
+  });
+};
+
+export const changePassword = async (userId: string, data: any) => {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user || !user.password) throw new Error('User not found');
+
+  const isMatch = await bcrypt.compare(data.currentPassword, user.password);
+  if (!isMatch) throw new Error('Current password is incorrect');
+
+  const hashedPassword = await bcrypt.hash(data.newPassword, 10);
+  await prisma.user.update({
+    where: { id: userId },
+    data: { password: hashedPassword },
+  });
+
+  return { message: 'Password changed successfully' };
+};
