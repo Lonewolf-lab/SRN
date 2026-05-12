@@ -46,6 +46,10 @@ export default function Uddeshya() {
 
       {/* ── Banner ─────────────────────────────────────────────────── */}
       <section className="relative bg-[#1E0F05] py-28 text-center px-6 overflow-hidden min-h-[38vh] flex items-center justify-center">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30 mix-blend-screen"
+          style={{ backgroundImage: `url('/uddeshya-hero.png')` }}
+        />
         <div
           className="absolute inset-0 opacity-[0.04]"
           style={{ backgroundImage: `repeating-linear-gradient(-45deg, white, white 1px, transparent 1px, transparent 28px)` }}
