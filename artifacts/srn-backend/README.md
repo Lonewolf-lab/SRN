@@ -1,4 +1,4 @@
-# 🛡️ Sashakt Rashtra Nirman (SRN) Backend
+# Sashakt Rashtra Nirman (SRN) Backend Infrastructure
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
@@ -6,45 +6,46 @@
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 [![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/)
 
-A production-grade, highly scalable backend infrastructure for the **Sashakt Rashtra Nirman (SRN)** platform. This system manages NGO operations, user engagement, forum discussions, events, and secure donation processing.
+A production-grade, highly scalable backend infrastructure for the Sashakt Rashtra Nirman (SRN) platform. This system manages NGO operations, user engagement, forum discussions, events, and secure payment processing.
 
 ---
 
-## 🚀 Features
+## Core Features
 
-- **🔐 Robust Auth**: Google OAuth 2.0 integration & JWT-based session management.
-- **🛡️ Security**: Token blacklisting with Redis and protected route middleware.
-- **☁️ Cloud Storage**: Multi-bucket avatar and resource management via Supabase Storage.
-- **💬 Community**: Full-featured Forum with threads and nested comments.
-- **📈 Content**: Paginated post systems with keyword search and premium filters.
-- **📅 Events**: Event management with attendee tracking and registration.
-- **💳 Payments**: Seamless Razorpay integration for memberships and donations.
-- **📖 API Documentation**: Interactive Swagger/OpenAPI 3.0 dashboard.
+- **Authentication**: Google OAuth 2.0 integration and JWT-based session management.
+- **Security**: Token blacklisting implemented with Redis and granular route protection middleware.
+- **Cloud Storage**: Enterprise-grade resource management utilizing Supabase Storage buckets.
+- **Community Engagement**: Robust Forum module supporting threaded discussions and comments.
+- **Content Management**: High-performance post system featuring pagination, search, and premium filters.
+- **Event Management**: Complete lifecycle tracking for events, including registration and attendee management.
+- **Payment Processing**: Integrated Razorpay gateway for memberships and secure donations.
+- **API Documentation**: Automated OpenAPI 3.0 documentation via Swagger UI.
 
 ---
 
-## 🛠️ Tech Stack
+## Technical Stack
 
-- **Runtime**: Node.js (v20+)
+- **Runtime**: Node.js (Version 20 and above)
 - **Language**: TypeScript
 - **Framework**: Express.js
-- **Database**: PostgreSQL (Prisma ORM)
-- **Caching**: Redis (ioredis)
-- **File Storage**: Supabase Storage
-- **Testing**: Jest & Supertest
-- **Documentation**: Swagger UI
-- **DevOps**: Docker, Docker Compose, GitHub Actions
+- **Database**: PostgreSQL with Prisma ORM
+- **Caching & Session**: Redis (ioredis)
+- **Object Storage**: Supabase Storage
+- **Testing Suite**: Jest and Supertest
+- **Documentation**: Swagger/OpenAPI
+- **Orchestration**: Docker and Docker Compose
+- **CI/CD**: GitHub Actions
 
 ---
 
-## 🚦 Quick Start
+## Implementation Guide
 
 ### 1. Prerequisites
-- Docker & Docker Compose
-- Node.js v20+
+- Docker and Docker Compose
+- Node.js LTS Environment
 
-### 2. Environment Setup
-Create a `.env` file in the root directory:
+### 2. Configuration
+Establish a `.env` file in the root directory with the following parameters:
 ```bash
 PORT=3000
 DATABASE_URL="your_postgresql_url"
@@ -58,69 +59,69 @@ RAZORPAY_KEY_ID="your_key"
 RAZORPAY_KEY_SECRET="your_secret"
 ```
 
-### 3. Running Locally
+### 3. Local Development
 ```bash
-# Install dependencies
+# Install package dependencies
 npm install
 
-# Generate Database Client
+# Generate Prisma Client
 npx prisma generate
 
-# Start in development mode
+# Execute development server
 npm run dev
 ```
 
-### 4. Running with Docker
+### 4. Containerized Deployment
 ```bash
-docker-compose up --build
+docker-compose up --build -d
 ```
 
 ---
 
-## 🧪 Testing & Quality
+## Quality Assurance
 
-We maintain high code quality through automated integration tests.
+The project utilizes an automated testing suite to ensure system integrity.
 
 ```bash
-# Run all tests
+# Execute integration tests
 npm test
 
-# Run tests with coverage
+# Generate coverage reports
 npm run test:coverage
 ```
 
 ---
 
-## 📚 API Documentation
+## API Documentation
 
-Once the server is running, you can explore and test the APIs interactively at:
-👉 **[http://localhost:3000/api/docs](http://localhost:3000/api/docs)**
-
----
-
-## 🚢 CI/CD
-
-This repository uses **GitHub Actions** for continuous integration. On every push to `main` or `master`:
-1. Environment is initialized.
-2. Dependencies are installed.
-3. Automated test suite is executed.
-4. Docker build is verified for production readiness.
+The interactive API documentation is accessible via the following endpoint once the service is active:
+**[http://localhost:3000/api/docs](http://localhost:3000/api/docs)**
 
 ---
 
-## 📁 Project Structure
+## CI/CD Pipeline
+
+Continuous Integration is managed via GitHub Actions. Every commit to the primary branch initiates:
+1. Environment initialization.
+2. Dependency synchronization.
+3. Execution of the integration test suite.
+4. Validation of the Docker build process.
+
+---
+
+## Project Directory Structure
 
 ```text
 src/
-├── config/         # App configurations (Swagger, etc.)
-├── lib/            # Shared clients (Supabase, Redis)
-├── middleware/     # Auth, Validation, Error handlers
-├── modules/        # Domain-driven modules (Auth, User, Posts...)
-├── utils/          # Helper functions (Upload, Response)
-└── tests/          # Integration tests
+├── config/         # System configurations
+├── lib/            # External service clients
+├── middleware/     # Protection and validation layers
+├── modules/        # Domain-specific logic
+├── utils/          # Utility functions
+└── tests/          # Integration test suite
 ```
 
 ---
 
-## 📜 License
-This project is proprietary. All rights reserved.
+## License
+This software is proprietary. Unauthorized copying or distribution is prohibited.
