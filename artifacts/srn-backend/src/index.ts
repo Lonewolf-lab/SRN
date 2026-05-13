@@ -81,7 +81,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 const httpServer = createServer(app);
 initSocket(httpServer);
 
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
   httpServer.listen(PORT, () => {
     logger.info(`Server is running on port ${PORT}`);
   });
