@@ -22,3 +22,14 @@ export const getAnalytics = catchAsync(async (req: Request, res: Response) => {
   const analytics = await adminService.getAnalytics();
   sendSuccess(res, analytics, 'Analytics fetched successfully');
 });
+
+export const deleteUser = catchAsync(async (req: Request, res: Response) => {
+  await adminService.deleteUser(req.params.id as string);
+  sendSuccess(res, null, 'User deleted successfully');
+});
+
+export const updateUserRole = catchAsync(async (req: Request, res: Response) => {
+  const { role } = req.body;
+  const user = await adminService.updateUserRole(req.params.id as string, role);
+  sendSuccess(res, user, 'User role updated successfully');
+});

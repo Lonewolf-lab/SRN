@@ -38,6 +38,18 @@ router.get('/', protect, notificationController.getNotifications);
  *         description: Notification marked as read
  */
 router.patch('/:id/read', protect, notificationController.markAsRead);
+/**
+ * @swagger
+ * /api/notifications/read-all:
+ *   patch:
+ *     summary: Mark all user notifications as read
+ *     tags: [Notifications]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: All notifications marked as read
+ */
 router.patch('/read-all', notificationController.markAllAsRead);
 
 export default router;

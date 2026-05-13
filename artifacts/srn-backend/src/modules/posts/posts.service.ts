@@ -1,9 +1,10 @@
 import { prisma } from '../../lib/prisma';
+import { getCache, setCache, delCache, redis } from '../../lib/cache';
 
 export const createPost = async (data: any, authorId: string) => {
   const slug = data.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Date.now();
   
-  return await prisma.post.create({
+  const post = await prisma.post.create({
     data: {
       title: data.title,
       slug,
@@ -12,9 +13,18 @@ export const createPost = async (data: any, authorId: string) => {
       authorId,
     },
   });
+
+  // Invalidate list cache
+  await invalidatePostsCache();
+
+  return post;
 };
 
 export const getPosts = async (page: number = 1, limit: number = 10, search?: string) => {
+  const cacheKey = `posts:list:${page}:${limit}:${search || 'none'}`;
+  const cachedData = await getCache<any>(cacheKey);
+  if (cachedData) return cachedData;
+
   const skip = (page - 1) * limit;
 
   const where: any = {};
@@ -38,7 +48,7 @@ export const getPosts = async (page: number = 1, limit: number = 10, search?: st
     prisma.post.count({ where }),
   ]);
 
-  return {
+  const result = {
     posts,
     pagination: {
       total,
@@ -47,6 +57,11 @@ export const getPosts = async (page: number = 1, limit: number = 10, search?: st
       totalPages: Math.ceil(total / limit),
     },
   };
+
+  // Cache for 5 minutes
+  await setCache(cacheKey, result, 300);
+
+  return result;
 };
 
 export const getPostById = async (id: string) => {
@@ -69,7 +84,7 @@ export const updatePost = async (id: string, userId: string, userRole: string, d
     throw new Error('You do not have permission to update this post');
   }
 
-  return await prisma.post.update({
+  const updatedPost = await prisma.post.update({
     where: { id },
     data: {
       title: data.title,
@@ -77,6 +92,9 @@ export const updatePost = async (id: string, userId: string, userRole: string, d
       isPremium: data.isPremium,
     },
   });
+
+  await invalidatePostsCache();
+  return updatedPost;
 };
 
 export const deletePost = async (id: string, userId: string, userRole: string) => {
@@ -88,5 +106,14 @@ export const deletePost = async (id: string, userId: string, userRole: string) =
     throw new Error('You do not have permission to delete this post');
   }
 
-  return await prisma.post.delete({ where: { id } });
+  const deletedPost = await prisma.post.delete({ where: { id } });
+  await invalidatePostsCache();
+  return deletedPost;
+};
+
+const invalidatePostsCache = async () => {
+  const keys = await redis.keys('posts:list:*');
+  if (keys.length > 0) {
+    await redis.del(...keys);
+  }
 };

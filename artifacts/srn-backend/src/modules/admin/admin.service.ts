@@ -56,15 +56,45 @@ export const toggleUserBan = async (userId: string, banStatus: boolean) => {
 };
 
 /**
+ * Permanently deletes a user by their ID
+ */
+export const deleteUser = async (userId: string) => {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user) throw new Error('User not found');
+
+  return await prisma.user.delete({
+    where: { id: userId },
+  });
+};
+
+/**
+ * Updates a user's role
+ */
+export const updateUserRole = async (userId: string, role: 'USER' | 'MEMBER' | 'ADMIN') => {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user) throw new Error('User not found');
+
+  return await prisma.user.update({
+    where: { id: userId },
+    data: { role },
+    select: { id: true, name: true, email: true, role: true },
+  });
+};
+
+/**
  * Fetches platform-wide analytics
  */
 export const getAnalytics = async () => {
-  const [totalUsers, totalMembers, totalPosts, totalEvents, totalPayments] = await Promise.all([
+  const [totalUsers, totalMembers, totalPosts, totalEvents, totalPayments, revenueResult] = await Promise.all([
     prisma.user.count(),
     prisma.user.count({ where: { role: 'MEMBER' } }),
     prisma.post.count(),
     prisma.event.count(),
     prisma.payment.count({ where: { status: 'SUCCESS' } }),
+    prisma.payment.aggregate({
+      where: { status: 'SUCCESS' },
+      _sum: { amount: true },
+    }),
   ]);
 
   return {
@@ -73,6 +103,7 @@ export const getAnalytics = async () => {
     totalPosts,
     totalEvents,
     totalPayments,
+    totalRevenue: revenueResult._sum.amount || 0,
   };
 };
 

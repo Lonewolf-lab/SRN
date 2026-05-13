@@ -19,6 +19,10 @@ import postsRoutes from './modules/posts/posts.routes';
 import forumRoutes from './modules/forum/forum.routes';
 import notificationRoutes from './modules/notification/notification.routes';
 import paymentRoutes from './modules/payment/payment.routes';
+import membershipRoutes from './modules/membership/membership.routes';
+import { createServer } from 'http';
+import { initSocket } from './lib/socket';
+import logger from './utils/logger';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -37,11 +41,13 @@ app.use(cookieParser());
 app.use('/uploads', express.static('uploads'));
 
 // Rate Limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
-});
-app.use('/api', limiter);
+if (process.env.NODE_ENV !== 'test') {
+  const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per windowMs
+  });
+  app.use('/api', limiter);
+}
 
 // Basic Route
 app.get('/', (req: Request, res: Response) => {
@@ -60,10 +66,11 @@ app.use('/api/posts', postsRoutes);
 app.use('/api/forum', forumRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/memberships', membershipRoutes);
 
 // Error Handling Middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
+  logger.error(err.stack || err.message);
   res.status(500).json({
     success: false,
     message: err.message || 'Internal Server Error',
@@ -71,9 +78,12 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
+const httpServer = createServer(app);
+initSocket(httpServer);
+
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  httpServer.listen(PORT, () => {
+    logger.info(`Server is running on port ${PORT}`);
   });
 }
 

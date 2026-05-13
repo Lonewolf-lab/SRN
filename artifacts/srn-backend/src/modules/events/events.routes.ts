@@ -18,10 +18,43 @@ const router = Router();
  *         description: List of events retrieved successfully
  */
 router.get('/', eventsController.getEvents);
+/**
+ * @swagger
+ * /api/events/{id}:
+ *   get:
+ *     summary: Get event by ID
+ *     tags: [Events]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Event details
+ */
 router.get('/:id', eventsController.getEventById);
 
 // Protected routes
 router.use(protect);
+
+/**
+ * @swagger
+ * /api/events/{id}/register:
+ *   post:
+ *     summary: Register for an event
+ *     tags: [Events]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       201:
+ *         description: Registered successfully
+ */
 router.post('/:id/register', eventsController.registerForEvent);
 
 /**
@@ -51,7 +84,23 @@ router.post('/:id/register', eventsController.registerForEvent);
  */
 router.post('/', protect, restrictTo('ADMIN'), validate(createEventSchema), eventsController.createEvent);
 
-// Admin only routes
+/**
+ * @swagger
+ * /api/events/{id}/attendees:
+ *   get:
+ *     summary: Get list of attendees for an event (Admin only)
+ *     tags: [Events]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: List of attendees
+ */
 router.get('/:id/attendees', restrictTo('ADMIN'), eventsController.getAttendees);
 
 export default router;

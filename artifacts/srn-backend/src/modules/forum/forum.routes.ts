@@ -16,6 +16,21 @@ const router = Router();
  */
 router.get('/threads', forumController.getThreads);
 
+/**
+ * @swagger
+ * /api/forum/threads/{id}:
+ *   get:
+ *     summary: Get forum thread by ID
+ *     tags: [Forum]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Thread details and comments
+ */
 router.get('/threads/:id', forumController.getThreadById);
 
 /**

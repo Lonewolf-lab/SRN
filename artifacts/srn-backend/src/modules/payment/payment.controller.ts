@@ -5,7 +5,7 @@ import { sendSuccess } from '../../utils/response';
 
 export const createOrder = catchAsync(async (req: Request, res: Response) => {
   const order = await paymentService.createOrder(req.user.id, req.body.amount);
-  sendSuccess(res, order, 'Payment order created');
+  sendSuccess(res, order, 'Payment order created', 201);
 });
 
 export const verifyPayment = catchAsync(async (req: Request, res: Response) => {

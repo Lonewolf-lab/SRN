@@ -1,13 +1,19 @@
 import { prisma } from '../../lib/prisma';
+import { emitToUser } from '../../lib/socket';
 
 export const createNotification = async (userId: string, title: string, message: string) => {
-  return await prisma.notification.create({
+  const notification = await prisma.notification.create({
     data: {
       userId,
       title,
       message,
     },
   });
+
+  // Emit real-time notification
+  emitToUser(userId, 'notification', notification);
+
+  return notification;
 };
 
 export const getNotifications = async (userId: string) => {

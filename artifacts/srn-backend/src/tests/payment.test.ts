@@ -1,0 +1,80 @@
+import request from 'supertest';
+import app from '../index';
+import { prisma } from '../lib/prisma';
+import { setupTestDB, closeConnections } from './setup';
+
+describe('Payment & Membership Module', () => {
+  let userToken: string;
+  let userId: string;
+
+  beforeAll(async () => {
+    await setupTestDB();
+    
+    // Register User
+    const userReg = await request(app).post('/api/auth/register').send({ 
+      name: 'User', 
+      email: 'payer@test.com', 
+      password: 'password123' 
+    });
+    userToken = userReg.body.data.accessToken;
+    userId = userReg.body.data.user.id;
+  });
+
+  afterAll(async () => {
+    await closeConnections();
+  });
+
+  it('should create a payment order', async () => {
+    const res = await request(app)
+      .post('/api/payments/order')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({
+        amount: 999,
+        currency: 'INR'
+      });
+
+    expect(res.status).toBe(201);
+    expect(res.body.data.amount).toBe(999);
+    expect(res.body.data.status).toBe('PENDING');
+  });
+
+  it('should verify payment and activate membership', async () => {
+    // Create order first
+    const orderRes = await request(app)
+      .post('/api/payments/order')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({ amount: 999 });
+
+    const paymentId = orderRes.body.data.id;
+
+    const res = await request(app)
+      .post('/api/payments/verify')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({
+        razorpay_order_id: 'fake_order',
+        paymentId: paymentId, // Match controller's expected field
+        razorpay_signature: 'fake_sig'
+      });
+
+    expect(res.status).toBe(200);
+    expect(res.body.data.status).toBe('SUCCESS');
+
+    // Check if user is now a MEMBER
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    expect(user?.role).toBe('MEMBER');
+
+    // Check membership record
+    const membership = await prisma.membership.findFirst({ where: { userId } });
+    expect(membership).toBeDefined();
+    expect(membership?.status).toBe('ACTIVE');
+  });
+
+  it('should get current user membership', async () => {
+    const res = await request(app)
+      .get('/api/memberships/me')
+      .set('Authorization', `Bearer ${userToken}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.data.plan).toBe('PREMIUM');
+  });
+});

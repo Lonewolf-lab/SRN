@@ -119,3 +119,26 @@ export const googleCallback = catchAsync(async (req: Request, res: Response) => 
 
   res.redirect(`${process.env.FRONTEND_URL}/auth/success?token=${result.accessToken}`);
 });
+
+export const forgotPassword = catchAsync(async (req: Request, res: Response) => {
+  const { email } = req.body;
+  const result = await authService.forgotPassword(email);
+  sendSuccess(res, result, 'Reset link sent to email');
+});
+
+export const resetPassword = catchAsync(async (req: Request, res: Response) => {
+  const { token, password } = req.body;
+  const result = await authService.resetPassword(token, password);
+  sendSuccess(res, result, 'Password reset successful');
+});
+
+export const sendVerification = catchAsync(async (req: Request, res: Response) => {
+  const result = await authService.sendVerificationEmail(req.user.id);
+  sendSuccess(res, result, 'Verification email sent');
+});
+
+export const verifyEmail = catchAsync(async (req: Request, res: Response) => {
+  const { token } = req.query;
+  const result = await authService.verifyEmail(token as string);
+  sendSuccess(res, result, 'Email verified successfully');
+});

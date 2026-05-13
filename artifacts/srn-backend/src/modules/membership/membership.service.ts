@@ -45,3 +45,26 @@ export const cancelMembership = async (id: string, userId: string) => {
     data: { status: 'CANCELLED' },
   });
 };
+
+export const getAllMemberships = async (page: number = 1, limit: number = 10) => {
+  const skip = (page - 1) * limit;
+  const [memberships, total] = await Promise.all([
+    prisma.membership.findMany({
+      skip,
+      take: limit,
+      include: { user: { select: { id: true, name: true, email: true } } },
+      orderBy: { createdAt: 'desc' },
+    }),
+    prisma.membership.count(),
+  ]);
+
+  return {
+    memberships,
+    pagination: {
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    },
+  };
+};
