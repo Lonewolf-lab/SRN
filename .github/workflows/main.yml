@@ -56,7 +56,7 @@ jobs:
         run: npx prisma generate
 
       - name: Push Database Schema
-        run: npx prisma db push --skip-generate
+        run: npx prisma db push --accept-data-loss
         env:
           DATABASE_URL: postgresql://user:password@localhost:5432/srn_db_test
 
