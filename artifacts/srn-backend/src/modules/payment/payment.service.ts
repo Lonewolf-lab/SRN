@@ -24,7 +24,7 @@ export const verifyPayment = async (paymentId: string, userId: string) => {
 
   // In a real app, verify signature from gateway here
   
-  return await prisma.$transaction(async (tx) => {
+  return await prisma.$transaction(async (tx: any) => {
     // 1. Update payment status
     const updatedPayment = await tx.payment.update({
       where: { id: paymentId },
@@ -34,7 +34,7 @@ export const verifyPayment = async (paymentId: string, userId: string) => {
     // 2. Activate membership (e.g. 1 year for 999 INR)
     // Simple logic: if amount >= 999 then 12 months, else 1 month
     const duration = payment.amount >= 999 ? 12 : 1;
-    await membershipService.subscribeUser(userId, 'PREMIUM', duration);
+    await membershipService.subscribeUser(userId, 'PREMIUM', duration, tx);
 
     return updatedPayment;
   });

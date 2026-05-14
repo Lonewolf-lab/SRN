@@ -1,30 +1,30 @@
 import { prisma } from '../../lib/prisma';
 
-export const subscribeUser = async (userId: string, plan: string, durationInMonths: number) => {
+export const subscribeUser = async (userId: string, plan: string, durationInMonths: number, txClient?: any) => {
   const startDate = new Date();
   const endDate = new Date();
   endDate.setMonth(endDate.getMonth() + durationInMonths);
 
-  return await prisma.$transaction(async (tx) => {
-    // 1. Create membership record
-    const membership = await tx.membership.create({
-      data: {
-        userId,
-        plan,
-        startDate,
-        endDate,
-        status: 'ACTIVE',
-      },
-    });
+  const client = txClient || prisma;
 
-    // 2. Update user role to MEMBER
-    await tx.user.update({
-      where: { id: userId },
-      data: { role: 'MEMBER' },
-    });
-
-    return membership;
+  // 1. Create membership record
+  const membership = await client.membership.create({
+    data: {
+      userId,
+      plan,
+      startDate,
+      endDate,
+      status: 'ACTIVE',
+    },
   });
+
+  // 2. Update user role to MEMBER
+  await client.user.update({
+    where: { id: userId },
+    data: { role: 'MEMBER' },
+  });
+
+  return membership;
 };
 
 export const getMembership = async (userId: string) => {
@@ -35,8 +35,11 @@ export const getMembership = async (userId: string) => {
 };
 
 export const cancelMembership = async (id: string, userId: string) => {
-  const membership = await prisma.membership.findUnique({ where: { id } });
-  if (!membership || membership.userId !== userId) {
+  const membership = await prisma.membership.findFirst({
+    where: { id, userId }
+  });
+  
+  if (!membership) {
     throw new Error('Membership not found');
   }
 
