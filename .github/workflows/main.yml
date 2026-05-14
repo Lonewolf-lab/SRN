@@ -35,6 +35,10 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+    defaults:
+      run:
+        working-directory: artifacts/srn-backend
+
     steps:
       - uses: actions/checkout@v3
 
@@ -43,6 +47,7 @@ jobs:
         with:
           node-version: '18.x'
           cache: 'npm'
+          cache-dependency-path: artifacts/srn-backend/package-lock.json
 
       - name: Install dependencies
         run: npm install
@@ -75,6 +80,6 @@ jobs:
       - name: Build Docker Image
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./artifacts/srn-backend
           push: false
           tags: srn-backend:latest
