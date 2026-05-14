@@ -67,6 +67,8 @@ jobs:
           REDIS_URL: redis://localhost:6379
           JWT_SECRET: test_secret
           NODE_ENV: test
+          SUPABASE_URL: https://dummy.supabase.co
+          SUPABASE_SERVICE_ROLE_KEY: dummy_key
 
   build-docker:
     runs-on: ubuntu-latest
