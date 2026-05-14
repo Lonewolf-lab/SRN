@@ -6,6 +6,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY prisma ./prisma
 RUN npm install
+RUN npx prisma generate --schema=./prisma/schema.prisma
 
 COPY . .
 RUN npm run build
@@ -17,7 +18,10 @@ WORKDIR /app
 
 COPY package*.json ./
 COPY prisma ./prisma
+# Install only production dependencies
 RUN npm install --production
+# Generate Prisma Client explicitly
+RUN npx prisma generate --schema=./prisma/schema.prisma
 
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
