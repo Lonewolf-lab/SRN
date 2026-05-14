@@ -119,9 +119,9 @@ export default function Home() {
             <h1 className="text-4xl md:text-6xl font-bold text-white font-serif leading-tight tracking-tight drop-shadow-lg">
               {lang === "en" ? "Sashakt Rashtra Nirman" : "सशक्त राष्ट्र निर्माण"}
             </h1>
-            <p className="text-xl text-[#F47A3A] mt-1 font-medium tracking-wide drop-shadow">
-              {lang === "en" ? "सशक्त राष्ट्र निर्माण" : "Sashakt Rashtra Nirman"}
-            </p>
+
+
+
           </motion.div>
 
           <motion.div
@@ -288,7 +288,7 @@ export default function Home() {
       </section>
 
       {/* ── Impact Counter ───────────────────────────────────────────── */}
-      <section className="py-20 px-6 relative bg-[#1E0F05] overflow-hidden">
+      <section className="py-20 px-6 relative bg-[#5C2710] overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.035]"
           style={{
