@@ -55,7 +55,7 @@ export const getAllMemberships = async (page: number = 1, limit: number = 10) =>
     prisma.membership.findMany({
       skip,
       take: limit,
-      include: { user: { select: { id: true, name: true, email: true } } },
+      include: { user: { select: { id: true, firstName: true, lastName: true, email: true } } },
       orderBy: { createdAt: 'desc' },
     }),
     prisma.membership.count(),

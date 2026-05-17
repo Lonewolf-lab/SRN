@@ -18,9 +18,15 @@ export const registerUser = async (data: any) => {
 
   const user = await prisma.user.create({
     data: {
-      name: data.name,
+      firstName: data.firstName,
+      lastName: data.lastName,
       email: data.email,
       password: hashedPassword,
+      phone: data.phone,
+      state: data.state,
+      district: data.district,
+      gender: data.gender,
+      dateOfBirth: data.dateOfBirth ? new Date(data.dateOfBirth) : null,
     },
   });
 
@@ -57,10 +63,15 @@ export const handleGoogleOAuth = async (profile: any) => {
   });
 
   if (!user) {
+    const nameParts = profile.name ? profile.name.split(' ') : [''];
+    const firstName = nameParts[0];
+    const lastName = nameParts.slice(1).join(' ') || '';
+
     user = await prisma.user.create({
       data: {
         email: profile.email,
-        name: profile.name,
+        firstName,
+        lastName,
         provider: 'GOOGLE',
         isVerified: true,
       },

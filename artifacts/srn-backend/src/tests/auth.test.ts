@@ -13,7 +13,12 @@ describe('Auth Module', () => {
   });
 
   const testUser = {
-    name: 'Test User',
+    firstName: 'Test',
+    lastName: 'User',
+    phone: '1234567890',
+    state: 'Delhi',
+    district: 'New Delhi',
+    gender: 'Male',
     email: 'test@example.com',
     password: 'password123',
   };

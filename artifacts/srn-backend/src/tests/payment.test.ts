@@ -12,7 +12,12 @@ describe('Payment & Membership Module', () => {
     
     // Register User
     const userReg = await request(app).post('/api/auth/register').send({ 
-      name: 'User', 
+      firstName: 'Test', 
+      lastName: 'Payer',
+      phone: '1234567890',
+      state: 'Delhi',
+      district: 'New Delhi',
+      gender: 'Male',
       email: 'payer@test.com', 
       password: 'password123' 
     });

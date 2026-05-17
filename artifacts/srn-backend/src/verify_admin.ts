@@ -8,7 +8,12 @@ async function testAdminApis() {
     // 1. Create a dummy user
     const user = await prisma.user.create({
       data: {
-        name: 'Admin Test User',
+        firstName: 'Admin',
+        lastName: 'Test User',
+        phone: '1234567890',
+        state: 'Delhi',
+        district: 'New Delhi',
+        gender: 'Male',
         email: 'admin_test@example.com',
         password: 'password123',
         role: 'USER'

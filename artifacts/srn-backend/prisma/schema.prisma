@@ -32,8 +32,14 @@ enum PaymentStatus {
 
 model User {
   id            String         @id @default(uuid())
-  name          String
+  firstName     String
+  lastName      String
   email         String         @unique
+  phone         String?
+  state         String?
+  district      String?
+  gender        String?
+  dateOfBirth   DateTime?
   password      String?
   avatar        String?
   role          Role           @default(USER)

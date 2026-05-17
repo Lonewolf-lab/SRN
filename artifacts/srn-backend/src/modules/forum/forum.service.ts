@@ -10,7 +10,7 @@ export const createThread = async (data: any, userId: string) => {
       userId,
     },
     include: {
-      user: { select: { id: true, name: true, avatar: true } },
+      user: { select: { id: true, firstName: true, lastName: true, avatar: true } },
     },
   });
 };
@@ -23,7 +23,7 @@ export const getThreads = async (page: number = 1, limit: number = 10) => {
       take: limit,
       orderBy: { createdAt: 'desc' },
       include: {
-        user: { select: { id: true, name: true, avatar: true } },
+        user: { select: { id: true, firstName: true, lastName: true, avatar: true } },
         _count: { select: { comments: true } },
       },
     }),
@@ -45,10 +45,10 @@ export const getThreadById = async (id: string) => {
   const thread = await prisma.forumThread.findUnique({
     where: { id },
     include: {
-      user: { select: { id: true, name: true, avatar: true } },
+      user: { select: { id: true, firstName: true, lastName: true, avatar: true } },
       comments: {
         include: {
-          user: { select: { id: true, name: true, avatar: true } },
+          user: { select: { id: true, firstName: true, lastName: true, avatar: true } },
         },
         orderBy: { createdAt: 'asc' },
       },
@@ -73,7 +73,7 @@ export const createComment = async (data: any, threadId: string, userId: string)
       userId,
     },
     include: {
-      user: { select: { id: true, name: true, avatar: true } },
+      user: { select: { id: true, firstName: true, lastName: true, avatar: true } },
     },
   });
 
@@ -82,7 +82,7 @@ export const createComment = async (data: any, threadId: string, userId: string)
     await notificationService.createNotification(
       thread.userId,
       'New Comment on your Thread',
-      `${comment.user.name} commented on your thread: "${thread.title}"`
+      `${comment.user.firstName} ${comment.user.lastName} commented on your thread: "${thread.title}"`
     );
   }
 

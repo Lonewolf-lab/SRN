@@ -12,7 +12,8 @@ export const getAllUsers = async (page: number = 1, limit: number = 10) => {
       take: limit,
       select: {
         id: true,
-        name: true,
+        firstName: true,
+        lastName: true,
         email: true,
         role: true,
         isActive: true,
@@ -49,7 +50,7 @@ export const toggleUserBan = async (userId: string, banStatus: boolean) => {
   const user = await prisma.user.update({
     where: { id: userId },
     data: { isActive: !banStatus },
-    select: { id: true, name: true, isActive: true, role: true },
+    select: { id: true, firstName: true, lastName: true, isActive: true, role: true },
   });
 
   return user;
@@ -77,7 +78,7 @@ export const updateUserRole = async (userId: string, role: 'USER' | 'MEMBER' | '
   return await prisma.user.update({
     where: { id: userId },
     data: { role },
-    select: { id: true, name: true, email: true, role: true },
+    select: { id: true, firstName: true, lastName: true, email: true, role: true },
   });
 };
 

@@ -22,7 +22,7 @@ export const register = catchAsync(async (req: Request, res: Response) => {
     });
 
     sendSuccess(res, {
-      user: { id: result.user.id, name: result.user.name, email: result.user.email, role: result.user.role },
+      user: { id: result.user.id, firstName: result.user.firstName, lastName: result.user.lastName, email: result.user.email, role: result.user.role },
       accessToken: result.accessToken
     }, 'Registration successful', 201);
   } catch (error: any) {
@@ -47,7 +47,7 @@ export const login = catchAsync(async (req: Request, res: Response) => {
     });
 
     sendSuccess(res, {
-      user: { id: result.user.id, name: result.user.name, email: result.user.email, role: result.user.role },
+      user: { id: result.user.id, firstName: result.user.firstName, lastName: result.user.lastName, email: result.user.email, role: result.user.role },
       accessToken: result.accessToken
     }, 'Login successful');
   } catch (error: any) {

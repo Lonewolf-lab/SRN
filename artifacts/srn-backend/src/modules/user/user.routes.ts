@@ -38,7 +38,13 @@ router.get('/me', userController.getProfile);
  *           schema:
  *             type: object
  *             properties:
- *               name: { type: string }
+ *               firstName: { type: string }
+ *               lastName: { type: string }
+ *               phone: { type: string }
+ *               state: { type: string }
+ *               district: { type: string }
+ *               gender: { type: string }
+ *               dateOfBirth: { type: string, format: date }
  *               avatar: { type: string, format: binary }
  *     responses:
  *       200:

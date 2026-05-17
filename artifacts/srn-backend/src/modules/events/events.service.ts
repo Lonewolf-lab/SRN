@@ -53,7 +53,8 @@ export const getEventAttendees = async (eventId: string) => {
       user: {
         select: {
           id: true,
-          name: true,
+          firstName: true,
+          lastName: true,
           email: true,
           avatar: true,
         },

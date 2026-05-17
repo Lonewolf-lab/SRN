@@ -11,13 +11,13 @@ describe('Posts Module', () => {
     await setupTestDB();
     
     // Register Admin
-    const adminReg = await request(app).post('/api/auth/register').send({ name: 'Admin', email: 'admin@test.com', password: 'password123' });
+    const adminReg = await request(app).post('/api/auth/register').send({ firstName: 'Admin', lastName: 'User', phone: '1234567890', state: 'Delhi', district: 'New Delhi', gender: 'Male', email: 'admin@test.com', password: 'password123' });
     adminToken = adminReg.body.data.accessToken;
     // Manually promote to ADMIN in DB
     await prisma.user.update({ where: { email: 'admin@test.com' }, data: { role: 'ADMIN' } });
 
     // Register User
-    const userReg = await request(app).post('/api/auth/register').send({ name: 'User', email: 'user@test.com', password: 'password123' });
+    const userReg = await request(app).post('/api/auth/register').send({ firstName: 'User', lastName: 'Test', phone: '0987654321', state: 'Delhi', district: 'New Delhi', gender: 'Female', email: 'user@test.com', password: 'password123' });
     userToken = userReg.body.data.accessToken;
   });
 

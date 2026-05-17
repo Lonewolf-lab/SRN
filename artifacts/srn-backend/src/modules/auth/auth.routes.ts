@@ -18,11 +18,17 @@ const router = Router();
  *         application/json:
  *           schema:
  *             type: object
- *             required: [name, email, password]
+ *             required: [firstName, lastName, email, password, phone, state, district, gender]
  *             properties:
- *               name: { type: string }
+ *               firstName: { type: string }
+ *               lastName: { type: string }
  *               email: { type: string }
  *               password: { type: string }
+ *               phone: { type: string }
+ *               state: { type: string }
+ *               district: { type: string }
+ *               gender: { type: string }
+ *               dateOfBirth: { type: string, format: date }
  *     responses:
  *       201:
  *         description: User registered successfully

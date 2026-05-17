@@ -42,7 +42,7 @@ export const getPosts = async (page: number = 1, limit: number = 10, search?: st
       take: limit,
       orderBy: { createdAt: 'desc' },
       include: {
-        author: { select: { id: true, name: true, avatar: true } }
+        author: { select: { id: true, firstName: true, lastName: true, avatar: true } }
       }
     }),
     prisma.post.count({ where }),
@@ -68,7 +68,7 @@ export const getPostById = async (id: string) => {
   const post = await prisma.post.findUnique({ 
     where: { id },
     include: {
-      author: { select: { id: true, name: true, avatar: true } }
+      author: { select: { id: true, firstName: true, lastName: true, avatar: true } }
     }
   });
   if (!post) throw new Error('Post not found');
