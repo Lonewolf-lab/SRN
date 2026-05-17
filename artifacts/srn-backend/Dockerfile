@@ -3,7 +3,7 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package*.json prisma.config.js ./
 COPY prisma ./prisma
 RUN npm install
 RUN npx prisma generate --schema=./prisma/schema.prisma
@@ -16,7 +16,7 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package*.json prisma.config.js ./
 COPY prisma ./prisma
 # Install only production dependencies
 RUN npm install --production
